@@ -52,13 +52,30 @@ CreateStuff.prototype = {
 
 
   // Update (animate) the created objects in this block
-  update: function () {
+  update: function (cbm) {
 
     // Sample code
     // ===========
 
     // rotate the cube
     this.cube1.rotation.y += 1;
+
+    // keyboard event listeners
+    if (cbm.keyboard.pressed('left')) {
+      this.sphere1.position.x -= 5;
+    }
+
+    if (cbm.keyboard.pressed('right')) {
+      this.sphere1.position.x += 5;
+    }
+
+    if (cbm.keyboard.pressed('up')) {
+      this.sphere1.position.z -= 5;
+    }
+
+    if (cbm.keyboard.pressed('down')) {
+      this.sphere1.position.z += 5;
+    }
   }
 
 };

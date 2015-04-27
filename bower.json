@@ -6,6 +6,7 @@
     "threejs": "https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.min.js",
     "StereoEffect": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/effects/StereoEffect.js",
     "DeviceOrientationControls": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/DeviceOrientationControls.js",
-    "OrbitControls": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js"
+    "OrbitControls": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js",
+    "threex.keyboardstate": ""
   }
 }

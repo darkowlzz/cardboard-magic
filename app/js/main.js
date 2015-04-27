@@ -4,7 +4,8 @@ require.config({
     THREE: 'vendor/three.min',
     StereoEffect: 'vendor/effects/StereoEffect',
     DeviceOrientationControls: 'vendor/controls/DeviceOrientationControls',
-    OrbitControls: 'vendor/controls/OrbitControls'
+    OrbitControls: 'vendor/controls/OrbitControls',
+    KeyboardState: 'vendor/threex.keyboardstate'
   },
   shim: {
     THREE: {
@@ -18,15 +19,18 @@ require.config({
     },
     OrbitControls: {
       deps: ['THREE']
+    },
+    KeyboardState: {
+      exports: 'THREEx'
     }
   }
 });
 
 require(
 [
-  'THREE', 'create', 'StereoEffect', 'DeviceOrientationControls',
-  'OrbitControls'
-], function (THREE, CreateStuff) {
+  'THREE', 'create', 'KeyboardState', 'StereoEffect',
+  'DeviceOrientationControls', 'OrbitControls'
+], function (THREE, CreateStuff, THREEx) {
 'use strict';
 
 // cardboardmagic
@@ -80,6 +84,9 @@ function initialSetup () {
 
     window.addEventListener('deviceorientation', setOrientationControls, true);
   }
+
+  // Create keyboard listener
+  cbm.keyboard = new THREEx.KeyboardState();
 }
 
 
@@ -94,7 +101,7 @@ function init () {
 function animate () {
   requestAnimationFrame( animate );
   onWindowResize();
-  cs.update();
+  cs.update(cbm);
   // Render using the effect
   if (cbm.isCardboard) {
     cbm.effect.render( cbm.scene, cbm.camera );
