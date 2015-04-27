@@ -1,9 +1,7 @@
-cardboard-bootstrap
-===================
+cardboard-magic
+===============
 
-Bootstrap cardboard based project with this readymade dev-env.
-
-* Download less, just the minified version of the libs.
+Cardboard framework for developing VR web apps.
 
 
 ## 2 Step Setup
