@@ -40,9 +40,14 @@ CreateStuff.prototype = {
     cbm.scene.add(mesh);
 
     // create a cube and place it in the scene
-    this.cube1 = Primitives.makeCube(200, 200, 200);
+    this.cube1 = Primitives.makeBox(200, 200, 200);
     this.cube1.position.y = 150;
     cbm.scene.add(this.cube1);
+
+    this.sphere1 = Primitives.makeSphere(50);
+    this.sphere1.position.x = 350;
+    this.sphere1.position.y = 150;
+    cbm.scene.add(this.sphere1);
   },
 
 

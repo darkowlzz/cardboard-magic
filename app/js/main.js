@@ -36,6 +36,21 @@ var cbm = {};
 cbm.isCardboard = true;
 
 function initialSetup () {
+  // Create a scene
+  cbm.scene = new THREE.Scene();
+
+  // Create a camera
+  var SCREEN_WIDTH = window.innerWidth,
+      SCREEN_HEIGHT = window.innerHeight,
+      VIEW_ANGLE = 120,
+      ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+      NEAR = 1, FAR = 1400;
+  cbm.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
+  // Add the camera to the scene
+  cbm.scene.add(cbm.camera);
+  cbm.camera.position.y = 150;
+  cbm.camera.position.z = 500;
+
   // Create a container 
   cbm.container = document.createElement('div');
   document.body.appendChild(cbm.container);
@@ -55,22 +70,11 @@ function initialSetup () {
     cbm.effect.setSize( window.innerWidth, window.innerHeight );
   }
 
-  // Create a scene
-  cbm.scene = new THREE.Scene();
-
-  // Create a camera
-  cbm.camera = new THREE.PerspectiveCamera(
-                      90, window.innerWidth / window.innerHeight, 1, 5000 );
-  cbm.camera.position.y = 250;
-  cbm.camera.position.z = 800;
-  // Add the camera to the scene
-  cbm.scene.add(cbm.camera);
-
-  // Create Orbit Controls -- CARDBOARD ONLY
-  if (cbm.isCardboard) {
-    cbm.controls = new THREE.OrbitControls(cbm.camera, cbm.element);
-    // Raise the controller
-    cbm.controls.rotateUp(Math.PI / 4);
+  // Create Orbit Controls
+  cbm.controls = new THREE.OrbitControls(cbm.camera, cbm.element);
+  // Raise the controller
+  cbm.controls.rotateUp(Math.PI / 4);
+  if (cbm.isCardboard) { // disable zooming in cardboard
     cbm.controls.noZoom = true;
     cbm.controls.noPan = true;
 
@@ -90,7 +94,6 @@ function init () {
 function animate () {
   requestAnimationFrame( animate );
   onWindowResize();
-  cbm.camera.rotation.y += 0.2;
   cs.update();
   // Render using the effect
   if (cbm.isCardboard) {

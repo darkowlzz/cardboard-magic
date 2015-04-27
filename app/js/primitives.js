@@ -6,7 +6,7 @@ define (function () { // jshint ignore:line
 return {
 
   // Create a cube
-  makeCube: function (l, b, h) {
+  makeBox: function (l, b, h) {
     var geometry = new THREE.BoxGeometry(l, b, h);
     for (var i = 0; i < geometry.faces.length; i +=2) {
       var hex = Math.random() * 0xffffff;
@@ -19,6 +19,13 @@ return {
                    );
     var mesh = new THREE.Mesh(geometry, material);
     return mesh;
+  },
+
+  makeSphere: function (radius) {
+    var sphereGeometry = new THREE.SphereGeometry(radius, 32, 16);
+    var sphereMaterial = new THREE.MeshLambertMaterial( {color: 0x8888ff} );
+    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    return sphere;
   }
 };
 
