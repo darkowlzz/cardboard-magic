@@ -1,0 +1,14 @@
+{
+    "libs": {
+        "options": {
+            "destPrefix": "app/js/vendor",
+            "clean": true
+        },
+        "files": {
+            "three.min.js": "threejs/index.js",
+            "effects/StereoEffect.js": "StereoEffect/index.js",
+            "controls/DeviceOrientationControls.js": "DeviceOrientationControls/index.js",
+            "controls/OrbitControls.js": "OrbitControls/index.js"
+        }
+    }
+}
