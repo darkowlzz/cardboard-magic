@@ -1,4 +1,33 @@
-(function () {
+require.config({
+  baseUrl: 'js',
+  paths: {
+    THREE: 'vendor/three.min',
+    StereoEffect: 'vendor/effects/StereoEffect',
+    DeviceOrientationControls: 'vendor/controls/DeviceOrientationControls',
+    OrbitControls: 'vendor/controls/OrbitControls'
+  },
+  shim: {
+    THREE: {
+      exports: 'THREE'
+    },
+    StereoEffect: {
+      deps: ['THREE']
+    },
+    DeviceOrientationControls: {
+      deps: ['THREE']
+    },
+    OrbitControls: {
+      deps: ['THREE']
+    }
+  }
+});
+
+require(
+[
+  'THREE', 'create', 'StereoEffect', 'DeviceOrientationControls',
+  'OrbitControls'
+], function (THREE, CreateStuff) {
+'use strict';
 
 // cardboardmagic
 var cbm = {};
@@ -7,44 +36,43 @@ var cbm = {};
 cbm.isCardboard = true;
 
 function initialSetup () {
-  var that = this;
   // Create a container 
-  that.container = document.createElement('div');
+  cbm.container = document.createElement('div');
   document.body.appendChild(cbm.container);
 
   // Create a renderer
-  that.renderer = new THREE.WebGLRenderer();
-  that.renderer.setClearColor(0xf0f0f0);
-  that.renderer.setSize( window.innerWidth, window.innerHeight );
-  that.element = that.renderer.domElement;
+  cbm.renderer = new THREE.WebGLRenderer();
+  cbm.renderer.setClearColor(0xf0f0f0);
+  cbm.renderer.setSize( window.innerWidth, window.innerHeight );
+  cbm.element = cbm.renderer.domElement;
 
   // Add the renderer to the container
-  that.container.appendChild( that.renderer.domElement );
+  cbm.container.appendChild( cbm.renderer.domElement );
 
   // Add Stereo effect -- CARDBOARD ONLY
-  if (that.isCardboard) {
-    that.effect = new THREE.StereoEffect(that.renderer);
-    that.effect.setSize( window.innerWidth, window.innerHeight );
+  if (cbm.isCardboard) {
+    cbm.effect = new THREE.StereoEffect(cbm.renderer);
+    cbm.effect.setSize( window.innerWidth, window.innerHeight );
   }
 
   // Create a scene
-  that.scene = new THREE.Scene();
+  cbm.scene = new THREE.Scene();
 
   // Create a camera
-  that.camera = new THREE.PerspectiveCamera(
+  cbm.camera = new THREE.PerspectiveCamera(
                       90, window.innerWidth / window.innerHeight, 1, 5000 );
-  that.camera.position.y = 250;
-  that.camera.position.z = 800;
+  cbm.camera.position.y = 250;
+  cbm.camera.position.z = 800;
   // Add the camera to the scene
-  that.scene.add(that.camera);
+  cbm.scene.add(cbm.camera);
 
   // Create Orbit Controls -- CARDBOARD ONLY
-  if (that.isCardboard) {
-    that.controls = new THREE.OrbitControls(that.camera, that.element);
+  if (cbm.isCardboard) {
+    cbm.controls = new THREE.OrbitControls(cbm.camera, cbm.element);
     // Raise the controller
-    that.controls.rotateUp(Math.PI / 4);
-    that.controls.noZoom = true;
-    that.controls.noPan = true;
+    cbm.controls.rotateUp(Math.PI / 4);
+    cbm.controls.noZoom = true;
+    cbm.controls.noPan = true;
 
     window.addEventListener('deviceorientation', setOrientationControls, true);
   }
@@ -52,8 +80,7 @@ function initialSetup () {
 
 
 function init () {
-  console.log('inside init');
-  initialSetup.bind(cbm)();
+  initialSetup();
   cs.create(cbm);
   window.addEventListener('resize', onWindowResize, false);
 }
@@ -63,6 +90,7 @@ function init () {
 function animate () {
   requestAnimationFrame( animate );
   onWindowResize();
+  cbm.camera.rotation.y += 0.2;
   cs.update();
   // Render using the effect
   if (cbm.isCardboard) {
@@ -108,9 +136,10 @@ function fullscreen () {
   }
 }
 
+
 var cs = new CreateStuff(); // jshint ignore:line
 // Initialize and animate
 init();
 animate();
 
-})();
+});

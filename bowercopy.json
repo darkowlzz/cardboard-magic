@@ -5,6 +5,7 @@
             "clean": true
         },
         "files": {
+            "require.js": "requirejs/require.js",
             "three.min.js": "threejs/index.js",
             "effects/StereoEffect.js": "StereoEffect/index.js",
             "controls/DeviceOrientationControls.js": "DeviceOrientationControls/index.js",
