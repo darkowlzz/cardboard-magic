@@ -5,7 +5,8 @@ require.config({
     StereoEffect: 'vendor/effects/StereoEffect',
     DeviceOrientationControls: 'vendor/controls/DeviceOrientationControls',
     OrbitControls: 'vendor/controls/OrbitControls',
-    KeyboardState: 'vendor/threex.keyboardstate'
+    KeyboardState: 'vendor/threex.keyboardstate',
+    socketio: 'vendor/socket.io'
   },
   shim: {
     THREE: {
@@ -22,15 +23,18 @@ require.config({
     },
     KeyboardState: {
       exports: 'THREEx'
+    },
+    socketio: {
+      exports: 'io'
     }
   }
 });
 
 require(
 [
-  'THREE', 'create', 'KeyboardState', 'StereoEffect',
+  'THREE', 'create', 'KeyboardState', 'socketio', 'StereoEffect',
   'DeviceOrientationControls', 'OrbitControls'
-], function (THREE, CreateStuff, THREEx) {
+], function (THREE, CreateStuff, THREEx, io) {
 'use strict';
 
 // cardboardmagic
@@ -38,6 +42,8 @@ var cbm = {};
 
 // For cardboard app
 cbm.isCardboard = true;
+
+cbm.socket = io();
 
 function initialSetup () {
   // Create a scene

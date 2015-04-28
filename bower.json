@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "requirejs": "~2.1.9",
+    "socketio": "https://cdn.socket.io/socket.io-1.3.5.js",
     "threejs": "https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.min.js",
     "StereoEffect": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/effects/StereoEffect.js",
     "DeviceOrientationControls": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/DeviceOrientationControls.js",

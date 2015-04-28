@@ -6,6 +6,7 @@
     },
     "files": {
       "require.js": "requirejs/require.js",
+      "socket.io.js": "socketio/index.js",
       "three.min.js": "threejs/index.js",
       "effects/StereoEffect.js": "StereoEffect/index.js",
       "controls/DeviceOrientationControls.js": "DeviceOrientationControls/index.js",
