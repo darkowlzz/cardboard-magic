@@ -4,6 +4,7 @@
  * Copyright (c) 2012 quickcue
  */
 
+var path = require('path');
 
 module.exports = function(grunt) {
     // Load dev dependencies
@@ -18,20 +19,19 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         bowercopy: grunt.file.readJSON('bowercopy.json'),
-        // The actual grunt server settings
-        connect: {
+        // express server settings
+        express: {
+          myServer: {
             options: {
-                port: 9000,
-                livereload: 35729,
-                // Change this to '0.0.0.0' to access the server from outside
-                hostname: '0.0.0.0'
-            },
-            livereload: {
-                options: {
-                    open: true,
-                    base: [ base ]
-                }
+              server: path.resolve(__dirname, 'server.js'),
+              port: 9000,
+              hostname: '0.0.0.0',
+              open: true,
+              bases: base,
+              livereload: 35729
+              //serverreload: true
             }
+          }
         },
         jshint: {
             options: {
@@ -44,6 +44,9 @@ module.exports = function(grunt) {
             bower: [ '{bower,bowercopy}.json' ]
         },
         watch: {
+            options: {
+                livereload: true
+            },
             // Watch javascript files for linting
             js: {
                 files: [
@@ -57,24 +60,12 @@ module.exports = function(grunt) {
                 ],
                 tasks: ['jsonlint']
             },
-            // Live reload
-            reload: {
-                options: {
-                    livereload: '<%= connect.options.livereload %>'
-                },
-                files: [
-                    '<%= watch.js.files %>',
-                    '<%= watch.json.files %>',
-                    base + '/css/**/*.css',
-                    '**/*.html'
-                ]
-            }
         }
     });
 
     grunt.registerTask('serve', function () {
         grunt.task.run([
-            'connect:livereload',
+            'express',
             'watch'
         ]);
     });
