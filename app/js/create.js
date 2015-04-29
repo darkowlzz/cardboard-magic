@@ -8,6 +8,8 @@ CreateStuff.prototype = {
   // Create objects in this block
   create: function (cbm) {
 
+    var that = this;
+
     // Sample code, delete them and create your own stuff
     // ====================================================
 
@@ -40,14 +42,32 @@ CreateStuff.prototype = {
     cbm.scene.add(mesh);
 
     // create a cube and place it in the scene
-    this.cube1 = Primitives.makeBox(200, 200, 200);
-    this.cube1.position.y = 150;
-    cbm.scene.add(this.cube1);
+    that.cube1 = Primitives.makeBox(200, 200, 200);
+    that.cube1.position.y = 150;
+    cbm.scene.add(that.cube1);
 
-    this.sphere1 = Primitives.makeSphere(50);
-    this.sphere1.position.x = 350;
-    this.sphere1.position.y = 150;
-    cbm.scene.add(this.sphere1);
+    that.sphere1 = Primitives.makeSphere(50);
+    that.sphere1.position.x = 350;
+    that.sphere1.position.y = 150;
+    cbm.scene.add(that.sphere1);
+
+    cbm.socket.on('move event', function (dir) {
+      switch (dir) {
+        case 'left':
+          cbm.camera.translateX(-5);
+          break;
+        case 'right':
+          cbm.camera.translateX(+5);
+          break;
+        case 'up':
+          cbm.camera.translateZ(-5);
+          break;
+        case 'down':
+          cbm.camera.translateZ(+5);
+          break;
+      }
+    });
+
   },
 
 
@@ -62,19 +82,19 @@ CreateStuff.prototype = {
 
     // keyboard event listeners
     if (cbm.keyboard.pressed('left')) {
-      this.sphere1.position.x -= 5;
+      cbm.socket.emit('move event', 'left');
     }
 
     if (cbm.keyboard.pressed('right')) {
-      this.sphere1.position.x += 5;
+      cbm.socket.emit('move event', 'right');
     }
 
     if (cbm.keyboard.pressed('up')) {
-      this.sphere1.position.z -= 5;
+      cbm.socket.emit('move event', 'up');
     }
 
     if (cbm.keyboard.pressed('down')) {
-      this.sphere1.position.z += 5;
+      cbm.socket.emit('move event', 'down');
     }
   }
 

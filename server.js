@@ -10,9 +10,14 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('other event', function (data) {
-    console.log(data);
+  console.log('a user connected');
+
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+
+  socket.on('move event', function (data) {
+    io.emit('move event', data);
   });
 });
 

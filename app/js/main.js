@@ -43,6 +43,7 @@ var cbm = {};
 // For cardboard app
 cbm.isCardboard = true;
 
+// create socket using socket.io
 cbm.socket = io();
 
 function initialSetup () {
@@ -58,8 +59,7 @@ function initialSetup () {
   cbm.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
   // Add the camera to the scene
   cbm.scene.add(cbm.camera);
-  cbm.camera.position.y = 150;
-  cbm.camera.position.z = 500;
+  cbm.camera.position.y = 100;
 
   // Create a container 
   cbm.container = document.createElement('div');
