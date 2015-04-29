@@ -94,7 +94,6 @@ CreateStuff.prototype = {
 
 
     cbm.onKeyDown = function (event) {
-      console.log(event.keyCode);
       switch (event.keyCode) {
         case 38: // up
         case 87: // w
@@ -169,21 +168,23 @@ CreateStuff.prototype = {
 
     if (cbm.moveForward) {
       cbm.velocity.z = -5;
+      cbm.camera.translateZ(cbm.velocity.z);
     }
     if (cbm.moveBackward) {
       cbm.velocity.z = 5;
+      cbm.camera.translateZ(cbm.velocity.z);
     }
 
     if (cbm.moveLeft) {
       cbm.velocity.x = -5;
+      cbm.camera.translateX(cbm.velocity.x);
     }
     if (cbm.moveRight) {
       cbm.velocity.x = 5;
+      cbm.camera.translateX(cbm.velocity.x);
     }
 
-    cbm.camera.translateX(cbm.velocity.x);
     cbm.camera.translateY(cbm.velocity.y * delta);
-    cbm.camera.translateZ(cbm.velocity.z);
 
     if (cbm.camera.position.y < 90) {
       cbm.velocity.y = 0;
