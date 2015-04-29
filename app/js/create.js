@@ -46,6 +46,7 @@ CreateStuff.prototype = {
     that.cube1.position.y = 150;
     cbm.scene.add(that.cube1);
 
+    // create a sphere and place it in the scene
     that.sphere1 = Primitives.makeSphere(50);
     that.sphere1.position.x = 350;
     that.sphere1.position.y = 150;
@@ -54,20 +55,99 @@ CreateStuff.prototype = {
     cbm.socket.on('move event', function (dir) {
       switch (dir) {
         case 'left':
-          cbm.camera.translateX(-5);
+          cbm.moveLeft = true;
           break;
         case 'right':
-          cbm.camera.translateX(+5);
+          cbm.moveRight = true;
           break;
         case 'up':
-          cbm.camera.translateZ(-5);
+          cbm.moveForward = true;
           break;
         case 'down':
-          cbm.camera.translateZ(+5);
+          cbm.moveBackward = true;
+          break;
+        case 'jump':
+          if (cbm.canJump === true) {
+            cbm.velocity.y += 350;
+          }
+          cbm.canJump = false;
           break;
       }
     });
 
+    cbm.socket.on('end move event', function (dir) {
+      switch (dir) {
+        case 'left':
+          cbm.moveLeft = false;
+          break;
+        case 'right':
+          cbm.moveRight = false;
+          break;
+        case 'up':
+          cbm.moveForward = false;
+          break;
+        case 'down':
+          cbm.moveBackward = false;
+          break;
+      }
+    });
+
+
+    cbm.onKeyDown = function (event) {
+      console.log(event.keyCode);
+      switch (event.keyCode) {
+        case 38: // up
+        case 87: // w
+          cbm.socket.emit('move event', 'up');
+          break;
+
+        case 37: // left
+        case 65: // a
+          cbm.socket.emit('move event', 'left');
+          break;
+
+        case 40: // down
+        case 83: // s
+          cbm.socket.emit('move event', 'down');
+          break;
+
+        case 39: // right
+        case 68: // d
+          cbm.socket.emit('move event', 'right');
+          break;
+
+        case 32: // space
+          cbm.socket.emit('move event', 'jump');
+          break;
+      }
+    };
+
+    cbm.onKeyUp = function (event) {
+      switch (event.keyCode) {
+        case 38: // up
+        case 87: // w
+          cbm.socket.emit('end move event', 'up');
+          break;
+
+        case 37: // left
+        case 65: // a
+          cbm.socket.emit('end move event', 'left');
+          break;
+
+        case 40: // down
+        case 83: // s
+          cbm.socket.emit('end move event', 'down');
+          break;
+
+        case 39: // right
+        case 68: // d
+          cbm.socket.emit('end move event', 'right');
+          break;
+      }
+    };
+
+    cbm.keyboard.domElement.addEventListener('keydown', cbm.onKeyDown, false);
+    cbm.keyboard.domElement.addEventListener('keyup', cbm.onKeyUp, false);
   },
 
 
@@ -80,22 +160,38 @@ CreateStuff.prototype = {
     // rotate the cube
     this.cube1.rotation.y += 1;
 
-    // keyboard event listeners
-    if (cbm.keyboard.pressed('left')) {
-      cbm.socket.emit('move event', 'left');
+    var time = window.performance.now();
+    var delta = (time - cbm.prevTime) / 1000;
+
+    //cbm.velocity.x -= cbm.velocity.x * 10.0 * delta;
+    //cbm.velocity.z -= cbm.velocity.z * 10.0 * delta;
+    cbm.velocity.y -= 9.8 * 100.0 * delta; // gravitational g = 9.8, mass= 100
+
+    if (cbm.moveForward) {
+      cbm.velocity.z = -5;
+    }
+    if (cbm.moveBackward) {
+      cbm.velocity.z = 5;
     }
 
-    if (cbm.keyboard.pressed('right')) {
-      cbm.socket.emit('move event', 'right');
+    if (cbm.moveLeft) {
+      cbm.velocity.x = -5;
+    }
+    if (cbm.moveRight) {
+      cbm.velocity.x = 5;
     }
 
-    if (cbm.keyboard.pressed('up')) {
-      cbm.socket.emit('move event', 'up');
+    cbm.camera.translateX(cbm.velocity.x);
+    cbm.camera.translateY(cbm.velocity.y * delta);
+    cbm.camera.translateZ(cbm.velocity.z);
+
+    if (cbm.camera.position.y < 90) {
+      cbm.velocity.y = 0;
+      cbm.camera.position.y = 90;
+      cbm.canJump = true;
     }
 
-    if (cbm.keyboard.pressed('down')) {
-      cbm.socket.emit('move event', 'down');
-    }
+    cbm.prevTime = time;
   }
 
 };

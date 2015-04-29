@@ -46,6 +46,14 @@ cbm.isCardboard = true;
 // create socket using socket.io
 cbm.socket = io();
 
+cbm.moveForward = false;
+cbm.moveBackward = false;
+cbm.moveLeft = false;
+cbm.moveRight = false;
+
+cbm.prevTime = window.performance.now();
+cbm.velocity = new THREE.Vector3();
+
 function initialSetup () {
   // Create a scene
   cbm.scene = new THREE.Scene();
@@ -82,6 +90,7 @@ function initialSetup () {
 
   // Create Orbit Controls
   cbm.controls = new THREE.OrbitControls(cbm.camera, cbm.element);
+
   // Raise the controller
   cbm.controls.rotateUp(Math.PI / 4);
   if (cbm.isCardboard) { // disable zooming in cardboard

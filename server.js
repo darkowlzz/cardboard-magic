@@ -19,6 +19,10 @@ io.sockets.on('connection', function (socket) {
   socket.on('move event', function (data) {
     io.emit('move event', data);
   });
+
+  socket.on('end move event', function (data) {
+    io.emit('end move event', data);
+  });
 });
 
 exports = module.exports = server;
