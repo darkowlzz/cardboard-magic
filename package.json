@@ -10,7 +10,7 @@
     "grunt-bowercopy": "^1.1.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-express": "^1.4.0",
+    "grunt-express": "1.4.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-newer": "^1.1.0",
     "load-grunt-tasks": "^3.1.0",

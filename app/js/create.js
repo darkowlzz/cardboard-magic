@@ -67,10 +67,9 @@ CreateStuff.prototype = {
           cbm.moveBackward = true;
           break;
         case 'jump':
-          if (cbm.canJump === true) {
-            cbm.velocity.y += 350;
+          if (cbm.velocity.y === 0) {
+            cbm.velocity.y += 30;
           }
-          cbm.canJump = false;
           break;
       }
     });
@@ -159,13 +158,6 @@ CreateStuff.prototype = {
     // rotate the cube
     this.cube1.rotation.y += 1;
 
-    var time = window.performance.now();
-    var delta = (time - cbm.prevTime) / 1000;
-
-    //cbm.velocity.x -= cbm.velocity.x * 10.0 * delta;
-    //cbm.velocity.z -= cbm.velocity.z * 10.0 * delta;
-    cbm.velocity.y -= 9.8 * 100.0 * delta; // gravitational g = 9.8, mass= 100
-
     if (cbm.moveForward) {
       cbm.velocity.z = -5;
       cbm.camera.translateZ(cbm.velocity.z);
@@ -184,15 +176,19 @@ CreateStuff.prototype = {
       cbm.camera.translateX(cbm.velocity.x);
     }
 
-    cbm.camera.translateY(cbm.velocity.y * delta);
-
-    if (cbm.camera.position.y < 90) {
-      cbm.velocity.y = 0;
-      cbm.camera.position.y = 90;
-      cbm.canJump = true;
+    if (cbm.velocity.y > 0) {
+      if (cbm.velocity.y > 15) {
+        cbm.camera.position.y += 5;
+      } else {
+        cbm.camera.position.y -= 5;
+      }
+      cbm.velocity.y--;
+    } else if ((cbm.camera.position.y < 100) ||
+               (cbm.camera.position.y > 100)) {
+      cbm.camera.position.y = 100;
     }
 
-    cbm.prevTime = time;
+
   }
 
 };

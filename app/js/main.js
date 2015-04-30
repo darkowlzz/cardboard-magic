@@ -51,7 +51,6 @@ cbm.moveBackward = false;
 cbm.moveLeft = false;
 cbm.moveRight = false;
 
-cbm.prevTime = window.performance.now();
 cbm.velocity = new THREE.Vector3();
 
 function initialSetup () {
